@@ -26,8 +26,8 @@ public class Main {
         int cycle = 0;
         while (cycle < cycleNumber) {
             cycle +=1;
-            for (int y = 0; y < axisY; y++) {
-                for (int x = 0; x < axisX; x++) {
+            for (int x = 0;x < axisX; x++) {
+                for (int y = 0; y < axisY; y++) {
                     int neighbours = 0;
                     int col;
                     int row;
@@ -36,18 +36,18 @@ public class Main {
                     }
                     for (int i = -1; i < 2; i++) {
                         for (int j = -1; j < 2; j++) {
-                            col = (y + i + axisY) % axisY;
-                            row = (x + j + axisX) % axisX;
+                            col = (x + i + axisX) % axisX;
+                            row = (y + j + axisY) % axisY;
                             if (oldGeneration[col][row].equals("X")) {
                                 neighbours++;
                             }
                         }
                     }
-                    if ((oldGeneration[y][x].equals("X")) && (neighbours < 2)) {
+                    if (oldGeneration[x][y].equals("X") && neighbours < 2) {
                         newGeneration[x][y] = "O";
-                    } else if ((oldGeneration[y][x].equals("X") && (neighbours > 3))) {
+                    } else if (oldGeneration[x][y].equals("X") && neighbours > 3) {
                         newGeneration[x][y] = "O";
-                    } else if ((oldGeneration[y][x].equals("O") && (neighbours == 3))) {
+                    } else if (oldGeneration[x][y].equals("O") && neighbours == 3) {
                         newGeneration[x][y] = "X";
                     } else
                         newGeneration[x][y] = oldGeneration[x][y];
@@ -57,7 +57,10 @@ public class Main {
             for (String[] string : newGeneration) {
                 System.out.println(Arrays.toString(string));
             }
-            oldGeneration = newGeneration;
+            for (int i = 0; i < axisX; i++) {
+                System.arraycopy(newGeneration[i], 0, oldGeneration[i], 0, oldGeneration[i].length);
+
+            }
         }
         try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(output))){
             for(String[] string: newGeneration)
